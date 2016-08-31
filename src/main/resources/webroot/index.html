@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis of Movie Reviews</title>
+    <script src="Js/jquery-1.11.2.min.js"></script>
+    <script src="Js/bootstrap.min.js"></script>
+    <link href="Css/bootstrap.min.css" rel="stylesheet"/>
+    <script type="text/javascript">
+        function fetchPolarity() {
+            var movieReview = $("#moviewReview").val();
+            $("#myModal").modal("show");
+            $.ajax({
+                type:"POST",
+                url:"http://localhost:9000/fetchNews/"+movieReview,
+                success:function (data) {
+                    $("#resultMovieReview").empty();
+                   /* if(data.empty()){
+                        $("#resultMovieReview").append("<h3 class='text-center'>Please enter text.</h3>")
+                    }*/
+                    if(data>0){
+                        $("#resultMovieReview").append("<h3 class='text-center'>The Review is Positive.</h3>")
+                    }else if(data<0){
+                        $("#resultMovieReview").append("<h3 class='text-center'>The Review is Negative.</h3>")
+                    }else{
+                        $("#resultMovieReview").append("<h3 class='text-center'>The Review is Neutral.</h3>")
+                    }
+                },
+                error:function (err) {
+                    console.log("Error")
+                },complete:function(e){
+/*
+                    $("#myModal").modal("hide");
+*/
+                }
+            })
+
+        }
+    </script>
+    <style>
+        .formDesign{
+            padding: 10px;
+            border: 3px solid #f5f5f5;
+            box-shadow: 2px 2px 2px 2px #3573a3;
+            border-radius: 5px;
+            background-color:ghostwhite;
+        }
+        .customButton{
+            margin: 0 auto;
+            width: 50%;
+        }
+        body{
+            background: url(http://down.111cn.net/mbs/2012/09/2/%E6%A2%A6%E5%B9%BB%E7%94%B5%E5%BD%B1%E8%83%B6%E5%8D%B7%E8%83%8C%E6%99%AF%E7%9F%A2%E9%87%8F%E5%9B%9B.jpg) no-repeat center center fixed;
+            background-size: cover;
+        }
+        .modal-body{
+            background-image: url('http://wallpapercave.com/wp/f2nbsPJ.jpg');
+            color: whitesmoke;
+            height: 158px;
+            border-radius: 4px;
+            box-shadow: 2px 2px 2px 2px #5d4747;
+r        }
+        h3{
+        font-size: 49px;
+        position: relative;
+        top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <h1 class="text-center">Movie Review</h1>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="formDesign">
+                <textarea type="text" name="movieReview" id="moviewReview" rows="7" cols="20" class="form-control"></textarea>
+                <br> <button class="btn btn-primary btn-block button customButton" onclick="fetchPolarity()">Submit</button></div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+
+</div>
+<br><br><br>
+<!--<div class="row" id="resultMovieReview">
+
+</div>-->
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+               <!-- <p>Processing.....</p>-->
+                <div class="row" id="resultMovieReview">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+
+</body>
+</html>
